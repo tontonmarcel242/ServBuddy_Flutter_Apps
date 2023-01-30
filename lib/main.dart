@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ServBuddyTheme.lightTheme,
       darkTheme: ServBuddyTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: LoginPage(),
+      home: const LoginPage(),
     );
   }
 }
