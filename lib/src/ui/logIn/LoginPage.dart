@@ -10,9 +10,10 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     bool _isObscure = true;
 
+    final edtEmail = TextEditingController();
+    final edtPassword = TextEditingController();
+
     GlobalKey<FormState> fromKey = GlobalKey<FormState>();
-    final myEmail = TextEditingController();
-    final myPassword = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -44,7 +45,7 @@ class LoginPage extends StatelessWidget {
                     children: [
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
-                        controller: myEmail,
+                        controller: edtEmail,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(
                             Icons.person_outline_outlined,
@@ -84,7 +85,7 @@ class LoginPage extends StatelessWidget {
                       const SizedBox(height: 16.0),
                       TextFormField(
                         keyboardType: TextInputType.visiblePassword,
-                        controller: myPassword,
+                        controller: edtPassword,
                         obscureText: _isObscure,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(
@@ -180,7 +181,7 @@ class LoginPage extends StatelessWidget {
                                     return AlertDialog(
                                       // Retrieve the text the that user has entered by using the
                                       // TextEditingController.
-                                      content: Text("${myEmail.text}${myPassword.text}"),
+                                      content: Text("${edtEmail.text}${edtPassword.text}"),
                                     );
                                   },
                                 );
@@ -215,21 +216,28 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      Align(
-                        alignment: Alignment.center,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => RegistrationPage()),
-                            );
-                          },
-                          child: const Text(
-                            "I have no account?",
-                            style: TextStyle(fontSize: 14, color: Colors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("I have no account? "),
+                          GestureDetector(
+                            onTap: () {
+                              // Navigate to the create account page
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => RegistrationPage()),
+                              );
+                            },
+                            child: const Text(
+                              "Create a account",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        ],
+                      )
                     ],
                   ),
                 ],

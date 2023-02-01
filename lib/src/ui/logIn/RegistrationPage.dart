@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import '../../constants/text_string.dart';
@@ -8,6 +9,23 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+
+  final edtName = TextEditingController();
+  final edtPhone = TextEditingController();
+  final edtEmail = TextEditingController();
+  final edtPass = TextEditingController();
+  final edtConPass = TextEditingController();
+
+  final List<String> areaItems = [
+    'Banani',
+    'Badda',
+    'Dhanmondi',
+    'Gulshan',
+    'Mirpur',
+  ];
+
+  String? selectedValue;
+
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> fromKey = GlobalKey<FormState>();
@@ -104,42 +122,57 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ]),
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    keyboardType: TextInputType.streetAddress,
+                  DropdownButtonFormField2(
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(
-                        Icons.mail_outline,
-                        color: Colors.black,
-                        size: 18,
-                      ),
-                      labelText: "Address",
-                      labelStyle:
-                          const TextStyle(fontSize: 14, color: Colors.black),
-                      hintText: "Enter your address",
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
+                      //Add isDense true and zero Padding.
+                      //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.circular(10),
                       ),
+                      //Add more decoration as you want here
+                      //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                     ),
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: "* Required"),
-                    ]),
+                    isExpanded: true,
+                    hint: const Text(
+                      'Select Your Area',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.black45,
+                    ),
+                    iconSize: 30,
+                    buttonHeight: 60,
+                    buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                    dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    items: areaItems
+                        .map((item) =>
+                        DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ))
+                        .toList(),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select area';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      //Do something when changing the item if you want.
+                    },
+                    onSaved: (value) {
+                      selectedValue = value.toString();
+                    },
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -266,7 +299,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (fromKey.currentState!.validate()) {
-
+                            
                           } else {
                             print("not valid");
                           }
@@ -290,7 +323,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ),
                             Text(
                               "Sign Up",
-                              style: TextStyle(color: Colors.white, fontSize: 20),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
                             ),
                           ],
                         ),
